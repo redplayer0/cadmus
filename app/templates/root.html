@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+</head>
+
+<body>
+  <aside>
+    <button hx-target="#content" hx-get="/users" hx>USERS</button>
+    <button hx-target="#content" hx-get="/personal_report" hx>ΑΤΟΜΙΚΗ ΑΝΑΦΟΡΑ</button>
+    <button hx-target="#content" hx-get="/document" hx>ΕΓΓΡΑΦΟ</button>
+  </aside>
+  <hr>
+  <div id="content">Welcome to Cadmus</div>
+  <div id="footer">
+    &copy; Copyright 2023 by <a href="https://github.com/redplayer0/">redplayer0</a>
+  </div>
+</body>
+
+</html>

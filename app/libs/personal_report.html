@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="./libs/personal_report.css" />
+</head>
+
+<body>
+  <section class="portrait">
+    <table>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right"><u>{{ doc["report"] }}</u></td>
+      </tr>
+      <tr>
+        <td class="td-05"><strong>ΠΡΟΣ</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td>{{ doc["sendto"] }}</td>
+        <td class="td-right">{{ doc["rank"] }}</td>
+      </tr>
+      <tr>
+        <td colspan="3"></td>
+        <td class="td-right">{{ doc["fullname"] }}</td>
+      </tr>
+      <tr>
+        <td colspan="3"></td>
+        <td class="td-right">{{ doc["father_am"] }}</td>
+      </tr>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right">{{ doc["duties"] }}</td>
+      </tr>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right">{{ doc["location"]}}, {{ doc["date"] }}</td>
+      </tr>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right">Συνημμένα: {{ doc["attachments"] }}</td>
+      </tr>
+    </table>
+    <br>
+    <table>
+      <tr>
+        <td class="td-05"><strong>ΘΕΜΑ</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td><u>{{ doc["topic"] }}</u></td>
+      </tr>
+    </table>
+
+    {% if doc["has_refs"] %}
+    <br>
+    <table>
+      {% for ref in doc["refs"] %}
+      {% if loop.first and loop.last %}
+      <tr>
+        <td class="td-05"><strong>ΣΧΕΤ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td><u>{{ ref[1] }}</u>
+        <td>
+      <tr>
+        {% elif loop.first %}
+      <tr>
+        <td class="td-05"><strong>ΣΧΕΤ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td class="td-1">{{ ref[0] }}. </td>
+        <td>{{ ref[1] }}
+        <td>
+      </tr>
+      {% elif loop.last %}
+      <tr>
+        <td class="td-05">&nbsp;</td>
+        <td class="td-1">&nbsp;</td>
+        <td class="td-1">{{ ref[0] }}. </td>
+        <td><u>{{ ref[1] }}</u>
+        <td>
+      </tr>
+      {% else %}
+      <tr>
+        <td class="td-05">&nbsp;</td>
+        <td class="td-1">&nbsp;</td>
+        <td class="td-1">{{ ref[0] }}. </td>
+        <td>{{ ref[1] }}
+        <td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+    {% endif %}
+
+    {% for block in doc["blocks"] %}
+    <br>
+    <div class="block">
+      <p class="t-{{ block[0] }}">{{ block[1] }}</p>
+      <p>{{ block[2] }}</p>
+    </div>
+    {% endfor %}
+  </section>
+</body>
+
+</html>

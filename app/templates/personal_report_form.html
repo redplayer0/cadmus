@@ -1,0 +1,104 @@
+<form id="form">
+  <fieldset>
+    <p>
+      <select name="report">
+        <option value="ΜΗ ΥΠΗΡΕΣΙΑΚΗ"><u>ΜΗ ΥΠΗΡΕΣΙΑΚΗ</u></option>
+        <option value="ΥΠΗΡΕΣΙΑΚΗ"><u>ΥΠΗΡΕΣΙΑΚΗ</u></option>
+      </select>
+    </p>
+    <p>
+      <label for="sendto"><strong>ΠΡΟΣ:</strong></label>
+      <input type="text" name="sendto" value="">
+    </p>
+    <p>
+      <label for="rank">Βαθμός:</label>
+      <input type="text" name="rank" value="">
+      <label for="fullname">Ονοματεπώνυμο:</label>
+      <input type="text" name="fullname" value="">
+    </p>
+    <p>
+      <label for="father_am">Ον. πατρός (ΑΜ:):</label>
+      <input type="text" name="father_am" value="">
+    </p>
+    <p>
+      <label for="duties">Καθήκοντα:</label>
+      <input type="text" name="duties" value="">
+    </p>
+    <p>
+      <label for="location">Τόπος:</label>
+      <input type="text" name="location" value="">
+      <label for="date">Ημερομηνία:</label>
+      <input type="date" name="date" value="">
+    </p>
+    <p>
+      <label for="attachments">Συνημμένα:</label>
+      <input type="text" name="attachments" value="">
+    </p>
+    <p>
+      <label for="topic"><strong>ΘΕΜΑ:</strong></label>
+      <input type="text" name="topic" value="">
+    </p>
+    <p>
+    <details>
+      <summary><strong>ΣΧΕΤ:</strong>
+        <button hx-get="/static/ref.html" hx-target="#reflist" hx-swap="beforeend">add</button>
+      </summary>
+      <div id="reflist" hx-swap="beforeend">
+        <input type="text" name="ref" value="">
+      </div>
+    </details>
+    </p>
+    <select id="templates" _='on change
+    set val to #templates.value
+    fetch `/static/${val}`
+    put the result into #body.innerHTML 
+    '>
+      <option value="ka">Κανονική Άδεια</option>
+      <option value="amd">ΑΜΔ</option>
+      <option value="allagh">Αλλαγή Υπηρεσίας</option>
+    </select>
+    <p>
+      <textarea id="body" name="body" rows="20" cols="80">1. Σας αναφέρω</textarea>
+    </p>
+    <button id="submit">Submit</button>
+  </fieldset>
+</form>
+
+<script>
+  const form = document.getElementById("form")
+  const refList = document.getElementById("reflist")
+
+  function downloadBlob(blob) {
+    const a = document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "report.pdf";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(a.href);
+  }
+
+  async function submit(event) {
+    event.preventDefault()
+    const formData = new FormData(form)
+    formData.append("refs", [])
+    console.log(formData)
+    try {
+      fetch(
+        '/personal_report',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      ).then(res => {
+        return res.blob()
+      }).then(blob => {
+        downloadBlob(blob)
+      })
+
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  document.getElementById("submit").addEventListener("click", submit)
+</script>

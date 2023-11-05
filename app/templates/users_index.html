@@ -1,0 +1,25 @@
+<form id="user_form">
+  <fieldset>
+    <label for="name"><strong>name:</strong></label>
+    <input type="text" name="name" value="">
+    <label for="email"><strong>email:</strong></label>
+    <input type="text" name="email" value="">
+    <button hx-post="/users" hx-select="#users" hx-target="#users" hx-swap="outerHTML">add</button>
+  </fieldset>
+</form>
+<table>
+  <thead>
+    <tr>
+      <th>name</td>
+      <th>email</td>
+    </tr>
+  </thead>
+  <tbody id="users">
+    {% for user in users %}
+    <tr>
+      <td>{{ user['name'] }}</td>
+      <td>{{ user['email'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
